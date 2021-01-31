@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Startseite</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+{% extends 'project_market/base.html' %}
+
+{% block content %}
+
+    <div class="jumbotron">
+      <h1 class="display-4">Willkommen in unserer Denkfabrik!</h1>
+      <p class="lead">Wir bringen die einzigartigsten und ehrgeizigsten Denker zusammen und erschaffen gemeinsam neue Projektideen.</p>
+      <hr class="my-4">
+      <p>Präsentiere, diskutiere und bewerte Projektideen. Kostenlose Registrierung.</p>
+      <p class="lead">
+          {% if user.is_authenticated %}
+            <a href="{% url 'project_market:projects' %}"><button type="button" class="btn btn-outline-primary">Zu den Projekten</button></a>
+          {% else %}
+            <a href="{% url 'users:register' %}"><button type="button" class="btn btn-outline-primary">Registrieren</button></a>
+            <a href="{% url 'users:login' %}"><button type="button" class="btn btn-outline-secondary">Einloggen</button></a>
+          {% endif %}
+      </p>
+    </div>
+      <hr class="my-4">
+
+
+{% endblock content %}
+</body>
+</html>

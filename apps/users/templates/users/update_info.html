@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+{% extends 'project_market/base.html' %}
+
+{% block content %}
+
+    <form method="post" action="{% url 'users:add_user_info' %}">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label }}<br>
+                {{ field }}
+                {{ field.help_text }}
+              {{ form.errors }}
+            </div>
+        {% endfor %}
+        <br>
+        <button name="submit" class="btn btn-primary">Account speichern</button>
+        <input type="hidden" name="next" value="{% url 'project_market:index' %}"/>
+    </form>
+
+{% endblock content %}
+</body>
+</html>

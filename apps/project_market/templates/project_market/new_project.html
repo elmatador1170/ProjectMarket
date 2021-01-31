@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+{% extends 'project_market/base.html' %}
+
+{% block content %}
+
+  <h1>NEW PROJECT:</h1>
+
+  <form method="post" action="{% url 'project_market:new_project' %}">
+    {% csrf_token %}
+
+    {% for field in form %}
+    <div class="field-group">
+      <label>{{ field.label_tag }}</label>
+      <p>
+        {{ field }}
+      </p>
+    </div>
+    {% endfor %}
+
+    <button type="submit">Erstellen</button>
+  </form>
+
+{% endblock content %}
+</body>
+</html>

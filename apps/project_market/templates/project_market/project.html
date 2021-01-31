@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Projekt</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+{% extends 'project_market/base.html' %}
+
+{% block header %}
+  <h3> {{ project }} </h3>
+{% endblock header %}
+
+{% block content %}
+
+  {% if user.username == project.owner %}
+    <p>
+      <a href="{% url 'project_market:delete_project' project.id %}">Projekt löschen</a> -
+      <a href="{% url 'project_market:edit_project' project.id %}">Änderungen vornehmen</a>
+    </p>
+  {% endif %}
+
+  <div class="card">
+    <div class="card-header">
+      <p><strong>Kurzbeschreibung:</strong></p>
+    </div>
+    <div class="card-body">
+      <p>{{ project.short_description }}</p>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <p>
+    <strong>Zugang:</strong>
+    {% if project.is_private %}
+      Privat
+    {% else %}
+      Öffentlich zugänglich
+    {% endif %}
+  </p>
+  <hr class="my-4">
+
+  <strong>Bewertungen:</strong>
+  <hr class="my-2">
+  {% for review in reviews %}
+    <div class="card border-dark mb-3">
+      <div class="card-header">
+        {{ review.owner }} | {{ review.rating }}
+      </div>
+      <div class="card-body">
+        {{ review.text }}
+      </div>
+    </div>
+
+  {% empty %}
+      Es wurden noch keine Bewertungen hinzugefügt.
+  {% endfor %}
+
+  <hr class="my-2">
+  <a href="{% url 'project_market:review_project' project.id %}"><button type="submit" class="btn btn-outline-secondary">Projekt bewerten</button></a>
+
+{% endblock content %}
+</body>
+</html>

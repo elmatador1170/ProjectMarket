@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Konversationen</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+{% extends 'project_market/base.html' %}
+
+{% block header %}
+  <h3>Konversationen</h3>
+{% endblock header %}
+
+{% block content %}
+
+
+  <div class="jumbotron">
+    <h4>Verbinde dich mit Gleichdenkenden und tausche deine Ideen aus.</h4>
+    <hr class="my-4">
+    <a href="{% url 'messenger:send_message' %}">
+      <button type="button" class="btn btn-outline-primary">Chat starten</button>
+    </a>
+  </div>
+
+  {% for conversation in information %}
+  <div class="card">
+    {% for key, value in conversation.items %}
+      {% ifequal key 'counterpart'  %}
+        <div class="card-header">
+          <strong>{{ user.username }}</strong>
+          ->
+          {{ counterpart }}
+          ||
+          {{ conversation.date_started }}
+          <a href="{% url 'messenger:show_conversation' conversation|get_value_from_conversation:conversation_id %}">
+            <button class="btn btn-primary btn-sm float-right">Konversation anzeigen</button>
+          </a>
+        </div>
+      {% else %}
+        <div class="card-body">
+          {{ value }}
+        </div>
+      {% endifequal %}
+    {% endfor %}
+  </div>
+
+  {% empty %}
+    <h4>Noch keine Konversationen gestartet.</h4>
+  {% endfor %}
+
+{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Konversation</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+{% extends 'project_market/base.html' %}
+
+{% block header %}
+  <h3>Konversation</h3>
+{% endblock header %}
+
+{% block content %}
+
+
+    <div class="card">
+      <div class="card-header">
+        <strong>{{ conversation.0.sender }}</strong> ->
+        {{ conversation.0.recipient }} |
+        {{ conversation.0.date_sent }} ||
+      </div>
+
+      <div class="card-body">
+        <ul>
+          {% for message in messages %}
+            {% ifnotequal message.sender user %}
+              <div class="{{ align_right }}">
+                <p>
+                    {{ message.date_sent }}
+                </p>
+
+                <li>
+                  <h6>
+                    {{ message }}
+                  </h6>
+                </li>
+              </div>
+            {% else %}
+              <div class="{{ align_left }}">
+                <p>
+                    {{ message.date_sent }}
+                </p>
+
+                <li>
+                  <h6>
+                    {{ message }}
+                  </h6>
+                </li>
+              </div>
+            {% endifnotequal %}
+
+        </ul>
+
+      </div>
+    </div>
+    <br>
+  {% endfor %}
+
+{% endblock content %}
+</body>
+</html>
