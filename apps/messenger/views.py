@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse
-from .forms import Messaging
+from .forms import Messaging, ChatMessage
 from .models import Message, Conversation, Participator
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
@@ -61,21 +61,22 @@ def show_conversations(request):
     information = []
 
     all_user_conversations = Conversation.objects.filter(participator__username=request.user.username)
-    print(all_user_conversations)
 
     for conversation in all_user_conversations:
         if bool(conversation):
             counterpart = ""
             for participator in list(conversation.participator_set.all()):
-                if participator != request.user.username:
-                    counterpart = participator
-
-            last_message = list(conversation.message_set.all())[0]
+                print(participator.username)
+                if participator.username != request.user.username:
+                    counterpart = participator.username
+            all_messages = conversation.message_set.all()
+            last_message = all_messages[len(all_messages)-1]
 
             data = {
                 'conversation_id': conversation.id,
-                'counterpart': counterpart.username,
-                'last_message': last_message
+                'counterpart': counterpart,
+                'last_message': last_message,
+                'date_sent': last_message.date_sent,
             }
             information.append(data)
 
@@ -87,15 +88,35 @@ def show_conversations(request):
 
 def show_conversation(request, conversation_id):
     conversation = Conversation.objects.filter(pk=conversation_id)[0]
-    messages = list(conversation.message_set.all().order_by('-date_sent'))
+    messages = list(conversation.message_set.all().order_by('date_sent'))
     participants = list(conversation.participator_set.all())
-    align_left = 'float-left'
-    align_right = 'float-right'
+    counterpart = ""
+    for participator in list(conversation.participator_set.all()):
+        if participator.username != request.user.username:
+            counterpart = participator.username
+
     context = {
         'conversation': conversation,
         'messages': messages,
-        'participants': participants,
-        'align_left': align_left,
-        'align-right': align_right
+        'counterpart': counterpart,
+        'form': send_message_chat(request, conversation_id, counterpart)
     }
     return render(request, 'messenger/conversation.html', context)
+
+
+def send_message_chat(request, conversation_id, recipient):
+    conversation = Conversation.objects.get(pk=conversation_id)
+
+    """Eine Nachricht im Chat versenden."""
+    if request.method != 'POST':
+        form = ChatMessage()
+    else:
+        form = ChatMessage(data=request.POST)
+        if form.is_valid():
+            new_message = form.save(commit=False)
+            new_message.sender = request.user
+            new_message.recipient = recipient
+            new_message.parent = conversation
+            new_message.save()
+
+    return form

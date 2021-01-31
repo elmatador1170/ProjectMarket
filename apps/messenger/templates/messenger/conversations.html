@@ -6,6 +6,17 @@
     <title>Konversationen</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+      .dot {
+        height: 10px;
+        width: 10px;
+        background-color: #28a745;
+        border-radius: 50%;
+        display: inline-block;
+      }
+    </style>
+
 </head>
 <body>
 {% extends 'project_market/base.html' %}
@@ -15,7 +26,7 @@
 {% endblock header %}
 
 {% block content %}
-
+{% load messenger_extras %}
 
   <div class="jumbotron">
     <h4>Verbinde dich mit Gleichdenkenden und tausche deine Ideen aus.</h4>
@@ -26,26 +37,23 @@
   </div>
 
   {% for conversation in information %}
-  <div class="card">
-    {% for key, value in conversation.items %}
-      {% ifequal key 'counterpart'  %}
-        <div class="card-header">
-          <strong>{{ user.username }}</strong>
-          ->
-          {{ counterpart }}
-          ||
-          {{ conversation.date_started }}
-          <a href="{% url 'messenger:show_conversation' conversation|get_value_from_conversation:conversation_id %}">
-            <button class="btn btn-primary btn-sm float-right">Konversation anzeigen</button>
-          </a>
-        </div>
-      {% else %}
-        <div class="card-body">
-          {{ value }}
-        </div>
-      {% endifequal %}
-    {% endfor %}
-  </div>
+    <div class="card">
+      <div class="card-header border-dark mb-3">
+        <strong><h5>{{ conversation|get_value:'counterpart' }}</h5></strong>
+        <span class="dot"></span>
+        Jetzt aktiv
+        <a href="{% url 'messenger:show_conversation' conversation|get_value:'conversation_id' %}">
+          <button class="btn btn-primary btn-sm float-right">Konversation anzeigen</button>
+        </a>
+      </div>
+
+      <div class="card-body">
+        {{ conversation|get_value:'last_message' }}
+        <small class="float-right">
+          {{ conversation|get_value:'date_sent' }}
+        </small>
+      </div>
+    </div>
 
   {% empty %}
     <h4>Noch keine Konversationen gestartet.</h4>

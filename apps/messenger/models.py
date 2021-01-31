@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 class Conversation(models.Model):
     """Model für eine Konversation."""
-    date_started = models.DateTimeField(auto_now_add=models.CASCADE)
+    date_started = models.DateTimeField(auto_now_add=True)
 
     # users = get_user_model().objects.all()
     # CHOOSE_RECIPIENT = [(user.username, user.username) for user in users]
