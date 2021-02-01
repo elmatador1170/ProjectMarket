@@ -10,6 +10,10 @@
 <body>
 {% extends 'project_market/base.html' %}
 
+{% block header %}
+  <h3>Konto erstellen</h3>
+{% endblock header %}
+
 {% block content %}
 
     <form method="post" action="{% url 'users:register' %}">
@@ -17,13 +21,27 @@
 
         {{ field.errors }}
 
-        {% for field in form %}
-            <div class="form-group">
-                {{ field.label }}<br>
-                {{ field }}
-                {{ field.help_text }}
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <input type="text" name="first_name" class="form-control" placeholder="Name" required>
+                </div>
+                <div class="col">
+                    <input type="text" name="last_name" class="form-control" placeholder="Nachname" required>
+                </div>
             </div>
-        {% endfor %}
+            <br>
+            <input type="email" name="email" class="form-control" placeholder="E-Mail Adresse" required>
+            <br>
+            <input type="text" name="username" class="form-control" placeholder="Benutzername" required>
+            <br>
+            <input type="date" name="birthday" class="form-control" placeholder="Geburtstag" required>
+            <br>
+            <input type="password" name="password1" class="form-control" placeholder="Passwort" required>
+            <br>
+            <input type="password" name="password2" class="form-control" placeholder="Passwort bestätigen" required>
+
+        </div>
         <br>
         <button name="submit" class="btn btn-primary">Account erstellen</button>
         <input type="hidden" name="next" value="{% url 'project_market:index' %}"/>

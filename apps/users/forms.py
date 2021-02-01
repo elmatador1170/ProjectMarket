@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.conf import settings
 from datetime import date
 from django.contrib.auth.models import User
@@ -41,6 +41,30 @@ class CreateUser(UserCreationForm):
             'email': 'E-Mail',
             'password1': 'Passwort',
             'password2': 'Passwort bestätigen'
+        }
+
+        widgets = {
+            'first_name': forms.Textarea(attrs={
+                'class': 'form-control'
+            }),
+            'last_name': forms.Textarea(attrs={
+                'class': 'form-control'
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control'
+            }),
+            'username': forms.Textarea(attrs={
+                'class': 'form-control'
+            }),
+            'birthday': forms.DateInput(attrs={
+                'class': 'form-control'
+            }),
+            'password1': forms.PasswordInput(attrs={
+                'class': 'form-control'
+            }),
+            'password2': forms.PasswordInput(attrs={
+                'class': 'form-control'
+            })
         }
 
 

@@ -11,31 +11,24 @@
 {% extends 'project_market/base.html' %}
 
 {% block header %}
-<hr class="my-4">
-
-  <h3>Login.</h3>
-  <hr/>
+  <h3>Logge dich ein</h3>
 {% endblock header %}
 
 {% block content %}
 
-    {% if form.errors %}
-    <p>Benutzername und Passwort stimmen nicht überein. Versuch es noch einmal!</p>
-    {% endif %}
+  {% if form.errors %}
+  <p>Benutzername und Passwort stimmen nicht überein. Versuch es noch einmal!</p>
+  {% endif %}
 
   <form action="{% url 'users:login' %}" method="post">
     {% csrf_token %}
-
-    {% for field in form %}
-      <div class="form-group">
-        <label>{{ field.label_tag }}</label>
-        <br>{{ field }}
-        {{ field.errors }}
-        <small>{{ field.help_text }}</small>
-      </div>
-    {% endfor %}
-
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+      <input type="text" name="username" placeholder="Benutzername" class="form-control" required>
+      <br>
+      <input type="password" name="password" placeholder="Passwort" class="form-control" required>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Login</button>
     <input type="hidden" name="next" value="{% url 'project_market:index' %}">
   </form>
 

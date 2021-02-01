@@ -7,23 +7,27 @@
 <body>
 {% extends 'project_market/base.html' %}
 
-{% block content %}
+{% block header %}
+  <h3>Neues Projekt</h3>
+{% endblock header %}
 
-  <h1>NEW PROJECT:</h1>
+{% block content %}
 
   <form method="post" action="{% url 'project_market:new_project' %}">
     {% csrf_token %}
 
-    {% for field in form %}
-    <div class="field-group">
-      <label>{{ field.label_tag }}</label>
-      <p>
-        {{ field }}
-      </p>
+    <div class="fieldWrapper form-group" aria-required="true">
+      <label>Projektname</label>
+      <input type="text" name="title" class="form-control" required id="id_title"/>
+      <br>
+      <label>Kurzbeschreibung</label>
+      <textarea name="short_description" class="form-control" rows="5" required id="id_short_description"></textarea>
+      <br>
+      <label>Privat</label>
+      <input type="checkbox" name="is_private" class="form-control" required id="id_is_private"/>
     </div>
-    {% endfor %}
-
-    <button type="submit">Erstellen</button>
+    <hr class="my-3">
+    <button type="submit" class="btn btn-primary">Erstellen</button>
   </form>
 
 {% endblock content %}

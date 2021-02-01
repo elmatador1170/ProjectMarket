@@ -19,16 +19,26 @@
   <form action="{% url 'messenger:send_message' %}" method="post">
     {% csrf_token %}
 
-    {% for field in form %}
-      <div class="form-group">
-        <label>{{ field.label_tag }}</label>
-        <br>{{ field }}
-        {{ field.errors }}
-        <small>{{ field.help_text }}</small>
-      </div>
-    {% endfor %}
+    {{ field.errors }}
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="fieldWrapper form-group" aria-required="true">
+      <label>Betreff</label>
+      <input type="text" name="title" class="form-control" required id="id_title"/>
+      <br>
+      <label>Nachricht</label>
+      <textarea name="content" class="form-control" rows="5" required></textarea>
+      <br>
+      <label>Empfänger</label>
+      <select id="recipient" class="form-control" required>
+        {% for recipient in form.recipient %}
+          <option>{{ recipient }}</option>
+        {% endfor %}
+      </select>
+      {{ counter }}
+    </div>
+
+    <hr class="my-3">
+    <button type="submit" class="btn btn-primary">Nachricht senden</button>
   </form>
 
 {% endblock content %}

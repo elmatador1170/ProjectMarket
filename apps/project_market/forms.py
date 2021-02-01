@@ -7,6 +7,14 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ['title', 'short_description', 'is_private']
         labels = {'title': 'Projektname', 'short_description': 'Beschreibung', 'is_private': 'Privat'}
+        widgets = {
+            'title': forms.Textarea(attrs={
+                'class': 'form-control'
+            }),
+            'short_description': forms.TextInput(attrs={
+                'class': 'form-control'
+            })
+        }
 
 
 class ReviewForm(forms.ModelForm):

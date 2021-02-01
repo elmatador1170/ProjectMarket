@@ -35,7 +35,8 @@ def send_message(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     context = {
-        'form': form
+        'form': form,
+        'counter': 2
     }
     return render(request, 'messenger/send_message.html', context)
 

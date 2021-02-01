@@ -9,6 +9,15 @@ class Messaging(forms.ModelForm):
         fields = ['title', 'content', 'recipient']
         labels = {'title': 'Betreff', 'content': 'Nachricht', 'recipient': 'Empfänger'}
 
+        widgets = {
+            'title': forms.Textarea(attrs={
+                'class': 'form-control'
+            }),
+            'content': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+        }
+
 
 class ChatMessage(forms.ModelForm):
     class Meta:
